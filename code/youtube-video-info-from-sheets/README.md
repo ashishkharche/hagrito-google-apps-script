@@ -37,6 +37,6 @@ Run the program, grant permissions.
 
 Check the `tech-support` section on [Hagrito](https://hagrito.com) site for `google-apps-script`.
 
-## Output
+### Output
 
 ![Sheets Data](https://i.imgur.com/60hN97H.png)
