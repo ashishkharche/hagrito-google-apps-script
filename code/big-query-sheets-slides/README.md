@@ -67,9 +67,9 @@ Check the `tech-support` section on [Hagrito](https://hagrito.com) site for `goo
 
 ### Output
 
-[tp4BIJ9.png (924×550)](https://i.imgur.com/tp4BIJ9.png)
+![tp4BIJ9.png (924×550)](https://i.imgur.com/tp4BIJ9.png)
 
-[0ctkEUr.png (1678×866)](https://i.imgur.com/0ctkEUr.png)
+![0ctkEUr.png (1678×866)](https://i.imgur.com/0ctkEUr.png)
 
 ## References
 
