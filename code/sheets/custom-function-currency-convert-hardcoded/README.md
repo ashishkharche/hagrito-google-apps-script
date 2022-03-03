@@ -1,4 +1,4 @@
-# Currency Convert Hardcoded
+# Custom Function Currency Convert Hardcoded
 
 This script converts currency from USD to Swiss Francs
 
@@ -15,3 +15,7 @@ To apply the formula to the rest of the cells in the column:
 2.  Drag the blue box downwards to highlight the range **I3**:**I11**.
 
 ![](https://developers.google.com/codelabs/apps-script-fundamentals-1/img/3cf46560d6cea0de.gif)
+
+## References
+
+[Fundamentals of Apps Script with Google Sheets #1: Macros & Custom Functions](https://developers.google.com/codelabs/apps-script-fundamentals-1#4)
