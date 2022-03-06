@@ -1,0 +1,33 @@
+# Embed line chart in sheets
+
+The first lines set up the following three variables:
+
+- `sheet`: a reference to the current active sheet.
+- `chartDataRange`: the data range we want to visualize. The code uses A1 notation to specify the range covers cells A2 through F102 in the sheet named **Dates and USD Exchange Rates dataset**. By naming the sheet specifically, we make sure the menu item works even if a different sheet is active as the range always covers the data position. Beginning at row 2 means we're including the column headers and we'll only chart the 100 most recent dates (rows).
+- `hAxisOptions`: a basic JavaScript object that includes some setting information the code uses to configure the appearance of the horizontal axis. Specifically, they set the horizontal axis text labels at a 60-degree slant, and it sets the number of vertical gridlines to 12.
+
+The next line creates a _line chart builder_ object. Embedded charts in Apps Script are constructed using a [Builder design pattern](https://en.wikipedia.org/wiki/Builder_pattern). A full explanation of this design pattern is out-of-scope for this codelab, so for now just understand the [`Spreadsheet` service](https://developers.google.com/apps-script/reference/spreadsheet) provides several [**`EmbeddedChartBuilder`**](https://developers.google.com/apps-script/reference/spreadsheet/embedded-chart-builder) classes. To create a chart, your code first creates an embedded chart builder object, uses its methods to define the chart settings, and then calls a [`build()`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-chart-builder#build) method to create the final [**`EmbeddedChart`**](https://developers.google.com/apps-script/reference/spreadsheet/embedded-chart) object. Your code never modifies the `EmbeddedChart` object directly as all chart configuration is managed through the builder classes.
+
+The Spreadsheet service provides a parent `EmbeddedChartBuilder` class and multiple child builder classes (such as [**`EmbeddedLineChartBuilder`**](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder)) that inherit from it. The child classes allow Apps Script to provide the builders chart configuration methods that are only applicable to certain chart types. For example, the [**`EmbeddedPieChartBuilder`**](https://developers.google.com/apps-script/reference/spreadsheet/embedded-pie-chart-builder) class provides a [`set3D()`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-pie-chart-builder#set3d) method that's only applicable to pie charts.
+
+In your code, this line creates the builder object variable `lineChartBuilder`:
+
+`var lineChartBuilder = sheet.newChart().asLineChart();`
+
+The code calls the [`Sheet.newChart()`](https://developers.google.com/apps-script/reference/spreadsheet/sheet#newchart) method to create an `EmbeddedChartBuilder` object, and then uses [`EmbeddedChartBuilder.asLineChart()`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-chart-builder#aslinechart) to set the builder type to `EmbeddedLineChartBuilder`.
+
+The code then builds the chart using lineChartBuilder. This part of the code is just a series of method calls to define the chart settings, followed by a `build()` call to create the chart. As you've seen in previous codelabs, the code uses [method chaining](https://en.wikipedia.org/wiki/Method_chaining) to keep the code human-readable. Here's what the method calls are doing:
+
+- [`addRange(range)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#addrangerange): Defines the data range the chart displays.
+- [`setPosition(anchorRowPos, anchorColPos, offsetX, offsetY)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#setpositionanchorrowpos,-anchorcolpos,-offsetx,-offsety): Determines where the chart is placed in the sheet. Here, the code is inserting the chart's upper-left corner in the cell H5.
+- [`setTitle(title)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#settitlecharttitle): Sets the chart title.
+- [`setNumHeaders(headers)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#setnumheadersheaders): Determine how many rows or columns in the data range should be treated as headers. Here, the code uses the first row in the data range as headers, which means the text in that row is used as labels for the individual data series in the chart.
+- [`setLegendPosition(position)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#setlegendpositionposition): Moves the chart legend to the right side of the chart. This method uses the [Charts.Position](https://developers.google.com/apps-script/reference/charts/position) enum as a parameter.
+- [`setOption(option, value)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#setoptionoption,-value): Sets complex chart options. Here, the code sets the `hAxis` option to the `hAxisOptions` object. There are several options you can set using this method. The options and possible values for each chart type is documented in the [Charts API Chart Gallery](https://developers.google.com/chart/interactive/docs/gallery). For example, the options you can set for line charts are documented under [Line chart configuration options](https://developers.google.com/chart/interactive/docs/gallery/linechart#configuration-options). The [`setOption(option, value)`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-line-chart-builder#setoptionoption,-value) method is an advanced topic so you might want to avoid using it until you're more comfortable with chart creation in Apps Script.
+- [`build()`](https://developers.google.com/apps-script/reference/spreadsheet/embedded-chart-builder#build): Creates and returns an [**`EmbeddedChart`**](https://developers.google.com/apps-script/reference/spreadsheet/embedded-chart) object using the above settings.
+
+Finally, the code calls [`Sheet.insertChart(chart)`](https://developers.google.com/apps-script/reference/spreadsheet/sheet#insertchartchart) to place the built chart into the active sheet.
+
+## References
+
+[Fundamentals of Apps Script with Google Sheets #5: Chart and Present Data in Slides](https://developers.google.com/codelabs/apps-script-fundamentals-5#2)
